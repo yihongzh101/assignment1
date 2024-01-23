@@ -107,7 +107,7 @@
 -- TODO!
 DROP TABLE IF EXISTS movies;
 DROP TABLE IF EXISTS actors;
-DROP TABLE IF EXISTS studio;
+DROP TABLE IF EXISTS studios;
 DROP TABLE IF EXISTS relationships;
 
 -- Create new tables, according to your domain model
@@ -144,9 +144,51 @@ INSERT INTO movies (
     name, year, rating, studio_id
 ) 
 VALUES 
-    (Batman Begins, 2005, PG-13, Warner Bros)
-    ()
+    ('Batman Begins', '2005', 'PG-13', 1),
+    ('The Dark Knight', '2008', 'PG-13', 1),
+    ('The Dark Knight Rises', '2012', 'PG-13', 1);
 
+INSERT INTO actors (
+    name
+) 
+VALUES 
+    ('Christian Bale'),
+    ('Michael Caine'),
+    ('Liam Neeson'),
+    ('Katie Holmes'),
+    ('Gary Oldman'),
+    ('Heath Ledger'),
+    ('Aaron Eckhart'),
+    ('Maggie Gyllenhaal'),
+    ('Tom Hardy'),
+    ('Joseph Gordon-Levitt'),
+    ('Anne Hathaway');
+
+INSERT INTO studios (
+    name
+) 
+VALUES 
+    ('Warner Bros');
+
+INSERT INTO relationships (
+    movie_id, actor_id, character
+) 
+VALUES 
+    (1, 1, 'Bruce Wayne'),
+    (1, 2, 'Alfred'),
+    (1, 3, "Ra's Al Ghul"),
+    (1, 4, 'Rachel Dawes'),
+    (1, 5, 'Commissioner Gordon'),
+    (2, 1, 'Bruce Wayne'),
+    (2, 6, 'Joker'),
+    (2, 7, 'Harvey Dent'),
+    (2, 2, 'Alfred'),
+    (2, 8, 'Rachel Dawes'),
+    (3, 1, 'Bruce Wayne'),
+    (3, 5, 'Commissioner Gordon'),
+    (3, 9, 'Bane'),
+    (3, 10, 'John Blake'),
+    (3, 11, 'Selina Kyle');
 
 
 -- Prints a header for the movies output
@@ -157,12 +199,27 @@ VALUES
 -- The SQL statement for the movies output
 -- TODO!
 
+SELECT
+    movies.name,
+    movies.year,
+    movies.rating,
+    studios.name
+FROM movies INNER JOIN studios ON movies.studio_id = studios.id
+WHERE studios.name = 'Warner Bros';
+
 -- Prints a header for the cast output
 .print ""
 .print "Top Cast"
 .print "========"
 .print ""
 
-
 -- The SQL statement for the cast output
 -- TODO!
+
+SELECT 
+    movies.name,
+    actors.name,
+    relationships.character
+FROM movies 
+INNER JOIN relationships ON movies.id = relationships.movie_id
+INNER JOIN actors ON relationships.actor_id = actors.id;
